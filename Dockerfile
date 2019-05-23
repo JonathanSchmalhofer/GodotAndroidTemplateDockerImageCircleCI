@@ -98,5 +98,9 @@ RUN apt-get update -y && \
     done && \
     (rm /tmp/*.pub 2> /dev/null || true)
 
+# Create debug key store
+#    Source: http://docs.godotengine.org/en/latest/getting_started/workflow/export/exporting_for_android.html#doc-exporting-for-android
+RUN keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999
+
 ADD tools/supervisord.conf /etc/supervisor/conf.d/
 CMD ["/usr/bin/supervisord"]
