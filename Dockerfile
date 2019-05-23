@@ -72,32 +72,6 @@ ENV LD_LIBRARY_PATH ${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib6
 ADD tools/license_accepter.sh /opt/
 RUN chmod +x /opt/license_accepter.sh && /opt/license_accepter.sh $ANDROID_HOME
 
-# setup adb server
-EXPOSE 5037
-
-# install and configure SSH server
-EXPOSE 22
-ADD tools/sshd-banner /etc/ssh/
-ADD tools/authorized_keys /tmp/
-RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends openssh-server supervisor locales && \
-    mkdir -p /var/run/sshd /var/log/supervisord && \
-    locale-gen en en_US en_US.UTF-8 && \
-    apt-get remove -y locales && apt-get autoremove -y && \
-    FILE_SSHD_CONFIG="/etc/ssh/sshd_config" && \
-    echo "\nBanner /etc/ssh/sshd-banner" >> $FILE_SSHD_CONFIG && \
-    echo "\nPermitUserEnvironment=yes" >> $FILE_SSHD_CONFIG && \
-    ssh-keygen -q -N "" -f /root/.ssh/id_rsa && \
-    FILE_SSH_ENV="/root/.ssh/environment" && \
-    touch $FILE_SSH_ENV && chmod 600 $FILE_SSH_ENV && \
-    printenv | grep "JAVA_HOME\|GRADLE_HOME\|KOTLIN_HOME\|ANDROID_HOME\|LD_LIBRARY_PATH\|PATH" >> $FILE_SSH_ENV && \
-    FILE_AUTH_KEYS="/root/.ssh/authorized_keys" && \
-    touch $FILE_AUTH_KEYS && chmod 600 $FILE_AUTH_KEYS && \
-    for file in /tmp/*.pub; \
-    do if [ -f "$file" ]; then echo "\n" >> $FILE_AUTH_KEYS && cat $file >> $FILE_AUTH_KEYS && echo "\n" >> $FILE_AUTH_KEYS; fi; \
-    done && \
-    (rm /tmp/*.pub 2> /dev/null || true)
-
 # Create debug key store
 #    Source: http://docs.godotengine.org/en/latest/getting_started/workflow/export/exporting_for_android.html#doc-exporting-for-android
 RUN keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999
