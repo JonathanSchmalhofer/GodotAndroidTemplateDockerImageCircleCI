@@ -75,3 +75,5 @@ RUN chmod +x /opt/license_accepter.sh && /opt/license_accepter.sh $ANDROID_HOME
 # Create debug key store
 #    Source: http://docs.godotengine.org/en/latest/getting_started/workflow/export/exporting_for_android.html#doc-exporting-for-android
 RUN keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999
+
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
