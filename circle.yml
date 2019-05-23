@@ -1,0 +1,18 @@
+version: 2
+jobs:
+    build:
+        machine: true
+        steps:
+            - checkout
+            - run: |
+                docker info
+                if [[ -e ~/docker/godot_android_template_builder.docker.bin ]]; then docker load --input ~/docker/godot_android_template_builder.docker.bin; fi
+                docker build --rm=false -t jonathanschmalhofer/godot-android-template-builder:latest .
+                mkdir -p ~/docker; docker save jonathanschmalhofer/godot-android-template-builder:latest > ~/docker/godot_android_template_builder.docker.bin
+            - run: |
+                docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                docker push jonathanschmalhofer/godot-android-template-builder:latest
+            - store_artifacts:
+                path: ~/docker
+            - store_artifacts:
+                path: ~/dockerrun.log
