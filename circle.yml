@@ -10,6 +10,9 @@ jobs:
                 docker build --rm=false -t jonathanschmalhofer/godot-android-template-builder:latest .
                 mkdir -p ~/docker; docker save jonathanschmalhofer/godot-android-template-builder:latest > ~/docker/godot_android_template_builder.docker.bin
             - run: |
+                docker run -d jonathanschmalhofer/godot-android-template-builder:latest /bin/bash -c "mkdir -p ~/my_project/src; cd ~/my_project/; git clone https://github.com/godotengine/godot.git; cd ~/my_project/godot; scons platform=android target=release android_arch=armv7" > ~/dockerrun.log
+                cat ~/dockerrun.log
+            - run: |
                 docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
                 docker push jonathanschmalhofer/godot-android-template-builder:latest
             - store_artifacts:
