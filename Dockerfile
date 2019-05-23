@@ -21,7 +21,7 @@ RUN dpkg --add-architecture i386 && \
     apt-get update -y && \
     apt-get install -y --no-install-recommends libncurses5:i386 libc6:i386 libstdc++6:i386 lib32gcc1 lib32ncurses5 lib32z1 zlib1g:i386 && \
     apt-get install -y --no-install-recommends openjdk-8-jdk && \
-    apt-get install -y --no-install-recommends git wget unzip apt-utils
+    apt-get install -y --no-install-recommends git wget unzip apt-utils python3
 
 # download and install Gradle
 # https://services.gradle.org/distributions/
