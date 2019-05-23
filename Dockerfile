@@ -49,6 +49,15 @@ RUN mkdir -p ${ANDROID_HOME} && cd ${ANDROID_HOME} && \
     unzip *tools*linux*.zip && \
     rm *tools*linux*.zip
 
+# download and install Android NDK
+# https://developer.android.com/ndk/downloads/
+ARG ANDROID_NDK_VERSION=r19c
+ENV ANDROID_NDK_HOME /opt/android-ndk
+RUN mkdir -p ${ANDROID_NDK_HOME} && cd ${ANDROID_NDK_HOME} && \
+    wget -q https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip && \
+    unzip *ndk*linux*.zip && \
+    rm *ndk*linux*.zip
+
 # set the environment variables
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV GRADLE_HOME /opt/gradle
