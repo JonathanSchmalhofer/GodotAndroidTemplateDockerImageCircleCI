@@ -57,8 +57,8 @@ ENV ANDROID_NDK_ROOT ${ANDROID_NDK_HOME}
 RUN cd /opt && \
     wget -q https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip && \
     unzip *ndk*linux*.zip && \
-    mv /opt/android-ndk-*  ${ANDROID_NDK_HOME} && \
-    rm *ndk*linux*.zip
+    mv android-ndk-${ANDROID_NDK_VERSION} android-ndk && \
+    rm *android-ndk*linux*.zip
 
 # set the environment variables
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
