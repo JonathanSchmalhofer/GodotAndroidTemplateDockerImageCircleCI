@@ -10,7 +10,7 @@ jobs:
                 docker build --rm=false -t jonathanschmalhofer/godot-android-template-builder:latest .
                 mkdir -p ~/docker; docker save jonathanschmalhofer/godot-android-template-builder:latest > ~/docker/godot_android_template_builder.docker.bin
             - run: |
-                docker run -d jonathanschmalhofer/godot-android-template-builder:latest /bin/bash -c "ll /opt/" > ~/dockerrun.log
+                docker run jonathanschmalhofer/godot-android-template-builder:latest /bin/bash -c "ll /opt/" >> ~/dockerrun.log
                 cat ~/dockerrun.log
             - run: |
                 docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
