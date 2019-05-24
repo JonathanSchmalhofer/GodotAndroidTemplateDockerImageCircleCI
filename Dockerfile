@@ -54,11 +54,12 @@ RUN mkdir -p ${ANDROID_HOME} && cd ${ANDROID_HOME} && \
 ARG ANDROID_NDK_VERSION=r19c
 ENV ANDROID_NDK_HOME /opt/android-ndk
 ENV ANDROID_NDK_ROOT ${ANDROID_NDK_HOME}
-RUN cd /opt && \
-    mkdir -p ${ANDROID_NDK_HOME} && \
+RUN mkdir -p ${ANDROID_NDK_HOME} && cd ${ANDROID_NDK_HOME} && \
     wget -q https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip && \
     unzip *ndk*linux*.zip && \
-    mv android-ndk* android-ndk && \
+    mv android-ndk-* /opt && \
+    rm -rf /opt/android-ndk && \
+    mv /opt/android-ndk-*  ${ANDROID_NDK_HOME} && \
     rm *ndk*linux*.zip
 
 # set the environment variables
